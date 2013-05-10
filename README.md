@@ -22,6 +22,8 @@ Attributes
 ----------
 See `attributes/default.rb` for default values.
 
+General configuration:
+
 * `node['rsyslog']['log_dir']` - If the node is an rsyslog server, this specifies the directory where the logs should be stored.
 * `node['rsyslog']['server']` - Determined automaticaly and set to true on the server.
 * `node['rsyslog']['server_ip']` - If not defined then search will be used to determine rsyslog server. Default is `nil`.  This can be a string or an array.
@@ -30,10 +32,7 @@ See `attributes/default.rb` for default values.
 * `node['rsyslog']['port']` - Specify the port which rsyslog should connect to a remote loghost.
 * `node['rsyslog']['remote_logs']` - Specify wether to send all logs to a remote server (client option). Default is `true`.
 * `node['rsyslog']['per_host_dir']` - "PerHost" directories for template statements in `35-server-per-host.conf`. Default value is the previous cookbook version's value, to preserve compatibility. See __server__ recipe below.
-* `node['rsyslog']['priv_seperation']` - Whether to use privilege seperation or not.
 * `node['rsyslog']['max_message_size']` - Specify the maximum allowed message size. Default is 2k.
-* `node['rsyslog']['user']` - Who should own the configuration files and directories
-* `node['rsyslog']['group']` - Who should group-own the configuration files and directories
 * `node['rsyslog']['defaults_file']` - The full path to the defaults/sysconfig file for the service.
 * `node['rsyslog']['service_name']` - The platform-specific name of the service
 * `node['rsyslog']['preserve_fqdn']` - Value of the `$PreserveFQDN` configuration directive in `/etc/rsyslog.conf`. Default is 'off' for compatibility purposes. When set to true, `$LocalHostName` will also be set to the node's FQDN because rsyslog does not always use the correct host name.
@@ -44,6 +43,20 @@ See `attributes/default.rb` for default values.
 * `node['rsyslog']['default_facility_logs']` - Hash containing log facilities and destinations used in `50-default.conf` template.
 * `node['rsyslog']['rate_limit_interval']` - Value of the $SystemLogRateLimitInterval configuration directive in `/etc/rsyslog.conf`. Default is nil, leaving it to the platform default.
 * `node['rsyslog']['rate_limit_burst']` - Value of the $SystemLogRateLimitBurst configuration directive in `/etc/rsyslog.conf`. Default is nil, leaving it to the platform default.
+
+
+Permissions and security:
+
+* `node['rsyslog']['priv_seperation']` - Whether to use privilege seperation or not.
+* `node['rsyslog']['user']` - Who should own the configuration files and directories
+* `node['rsyslog']['group']` - Who should group-own the configuration files and directories
+* `node['rsyslog']['file_owner']` - Sets the owner of newly created log files. Only has effect if `priv_seperation` is true. Defaults to the value of `user`.
+* `node['rsyslog']['file_group']` - Sets the group of newly created log files. Only has effect if `priv_seperation` is true. Defaults to the value of `group`.
+* `node['rsyslog']['dir_owner']` - Sets the owner of newly created log directories. Only has effect if `priv_seperation` is true. Defaults to the value of `file_owner`.
+* `node['rsyslog']['dir_group']` - Sets the group of newly created log directories. Only has effect if `priv_seperation` is true. Defaults to the value of `file_group`.
+* `node['rsyslog']['file_create_mode']` - Permissions for newly created log files. The actual permissions depends on he umask. The default is 0640.
+* `node['rsyslog']['dir_create_mode']` - Permissions for newly created log files. The actual permissions depends on the umask. The default is 0755.
+* `node['rsyslog']['umask']` - Sets the process umask. The default is 0022.
 
 
 Recipes

@@ -26,6 +26,9 @@ directory node['rsyslog']['log_dir'] do
   owner    'root'
   group    'root'
   mode     '0755'
+  owner(node['rsyslog']['dir_owner'] || node['rsyslog']['file_owner'] || 'root')
+  group(node['rsyslog']['dir_group'] || node['rsyslog']['file_group'] || 'root')
+  mode node['rsyslog']['dir_create_mode'] || '0755'
   recursive true
 end
 
