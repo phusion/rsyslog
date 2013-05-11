@@ -17,6 +17,11 @@
 # limitations under the License.
 #
 
+has_service_spec = !!node['rsyslog']['service_spec']
+if !has_service_spec
+  node.set['rsyslog']['service_spec'] = "service[#{node['rsyslog']['service_name']}]"
+end
+
 package 'rsyslog'
 package 'rsyslog-relp' if node['rsyslog']['use_relp']
 
@@ -39,7 +44,7 @@ template "#{node['rsyslog']['config_prefix']}/rsyslog.conf" do
   owner   'root'
   group   'root'
   mode    '0644'
-  notifies :restart, "service[#{node['rsyslog']['service_name']}]"
+  notifies :restart, node['rsyslog']['service_spec']
 end
 
 template "#{node['rsyslog']['config_prefix']}/rsyslog.d/50-default.conf" do
@@ -47,7 +52,7 @@ template "#{node['rsyslog']['config_prefix']}/rsyslog.d/50-default.conf" do
   owner   'root'
   group   'root'
   mode    '0644'
-  notifies :restart, "service[#{node['rsyslog']['service_name']}]"
+  notifies :restart, node['rsyslog']['service_spec']
 end
 
 # syslog needs to be stopped before rsyslog can be started on RHEL versions before 6.0
@@ -79,7 +84,9 @@ if platform_family?('omnios')
   end
 end
 
-service node['rsyslog']['service_name'] do
-  supports :restart => true, :reload => true, :status => true
-  action   [:enable, :start]
+if !has_service_spec
+  service node['rsyslog']['service_name'] do
+    supports :restart => true, :reload => true, :status => true
+    action   [:enable, :start]
+  end
 end

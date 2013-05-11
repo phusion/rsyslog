@@ -47,11 +47,11 @@ template "#{node['rsyslog']['config_prefix']}/rsyslog.d/49-remote.conf" do
   group     'root'
   mode      '0644'
   variables(:servers => rsyslog_servers)
-  notifies  :restart, "service[#{node['rsyslog']['service_name']}]"
+  notifies  :restart, node['rsyslog']['service_spec']
   only_if   { node['rsyslog']['remote_logs'] }
 end
 
 file "#{node['rsyslog']['config_prefix']}/rsyslog.d/server.conf" do
   action   :delete
-  notifies :reload, "service[#{node['rsyslog']['service_name']}]"
+  notifies :reload, node['rsyslog']['service_spec']
 end

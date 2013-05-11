@@ -39,6 +39,7 @@ default['rsyslog']['rate_limit_burst']          = nil
 
 # The most likely platform-specific attributes
 default['rsyslog']['service_name']              = 'rsyslog'
+default['rsyslog']['service_spec']              = nil
 default['rsyslog']['user']                      = 'root'
 default['rsyslog']['group']                     = 'adm'
 default['rsyslog']['priv_seperation']           = false

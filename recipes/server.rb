@@ -34,11 +34,11 @@ template "#{node['rsyslog']['config_prefix']}/rsyslog.d/35-server-per-host.conf"
   owner    'root'
   group    'root'
   mode     '0644'
-  notifies :restart, "service[#{node['rsyslog']['service_name']}]"
+  notifies :restart, node['rsyslog']['service_spec']
 end
 
 file "#{node['rsyslog']['config_prefix']}/rsyslog.d/remote.conf" do
   action   :delete
-  notifies :reload, "service[#{node['rsyslog']['service_name']}]"
+  notifies :reload, node['rsyslog']['service_spec']
   only_if  { ::File.exists?("#{node['rsyslog']['config_prefix']}/rsyslog.d/remote.conf") }
 end
