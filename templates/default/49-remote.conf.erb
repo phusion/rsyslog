@@ -5,9 +5,20 @@ $ActionResumeRetryCount -1 # infinite retries on insert failure
 $ActionQueueSaveOnShutdown on # save in-memory data if rsyslog shuts down
 $ActionQueueMaxDiskSpace 1g   # 1gb space limit (use as much as possible)
 <% @servers.each do |server| -%>
+<% if node['rsyslog']['tls'] -%>
+<% if node['rsyslog']['tls_authenticate_server'] -%>
+<% if node['rsyslog']['tls_server_name'] -%>
+$ActionSendStreamDriverAuthMode x509/name
+$ActionSendStreamDriverPermittedPeer <%= node['rsyslog']['tls_server_name'] %>
+<% end %>
+<% else -%>
+$ActionSendStreamDriverAuthMode anon
+<% end -%>
+$ActionSendStreamDriverMode 1
+<% end -%>
 <% case node['rsyslog']['protocol'] -%>
 <% when "tcp" -%>
-<%= node['rsyslog']['logs_to_forward'] %> @@<%= server %>:<%= node['rsyslog']['port'] %>
+<%= node['rsyslog']['logs_to_forward'] %> @@<%= "(o)" if node['rsyslog']['tls'] %><%= server %>:<%= node['rsyslog']['port'] %>
 <% when "udp" -%>
 <%= node['rsyslog']['logs_to_forward'] %> @<%= server %>:<%= node['rsyslog']['port'] %>
 <% end -%>

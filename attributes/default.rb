@@ -37,6 +37,16 @@ default['rsyslog']['config_prefix']             = '/etc'
 default['rsyslog']['rate_limit_interval']       = nil
 default['rsyslog']['rate_limit_burst']          = nil
 
+# TLS support
+default["rsyslog"]["tls"] = false
+default["rsyslog"]["tls_ca_file"] = nil
+default["rsyslog"]["tls_certificate_file"] = nil
+default["rsyslog"]["tls_key_file"] = nil
+default["rsyslog"]["tls_authenticate_server"] = true
+default["rsyslog"]["tls_authenticate_clients"] = true
+default["rsyslog"]["tls_server_name"] = nil
+default["rsyslog"]["tls_permitted_clients_names"] = nil
+
 # The most likely platform-specific attributes
 default['rsyslog']['service_name']              = 'rsyslog'
 default['rsyslog']['service_spec']              = nil
