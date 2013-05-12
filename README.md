@@ -36,7 +36,7 @@ See `attributes/default.rb` for default values.
 * `node['rsyslog']['group']` - Who should group-own the configuration files and directories
 * `node['rsyslog']['defaults_file']` - The full path to the defaults/sysconfig file for the service.
 * `node['rsyslog']['service_name']` - The platform-specific name of the service
-* `node['rsyslog']['preserve_fqdn']` - Value of the `$PreserveFQDN` configuration directive in `/etc/rsyslog.conf`. Default is 'off' for compatibility purposes.
+* `node['rsyslog']['preserve_fqdn']` - Value of the `$PreserveFQDN` configuration directive in `/etc/rsyslog.conf`. Default is 'off' for compatibility purposes. When set to true, `$LocalHostName` will also be set to the node's FQDN because rsyslog does not always use the correct host name.
 * `node['rsyslog']['high_precision_timestamps']` -  Enable high precision timestamps, instead of the "old style" format.  Default is 'false'.
 * `node['rsyslog']['repeated_msg_reduction']` -  Value of `$RepeatedMsgReduction` configuration directive in `/etc/rsyslog.conf`. Default is 'on'
 * `node['rsyslog']['logs_to_forward']` -  Specifies what logs should be sent to the remote rsyslog server. Default is all ( \*.\* ).
