@@ -18,7 +18,7 @@ $ActionSendStreamDriverMode 1
 <% end -%>
 <% case node['rsyslog']['protocol'] -%>
 <% when "tcp" -%>
-<%= node['rsyslog']['logs_to_forward'] %> @@<%= "(o)" if node['rsyslog']['tls'] %><%= server %>:<%= node['rsyslog']['port'] %>
+<%= node['rsyslog']['logs_to_forward'] %> @@(<%= "o," if node['rsyslog']['tls'] %>z3)<%= server %>:<%= node['rsyslog']['port'] %>
 <% when "udp" -%>
 <%= node['rsyslog']['logs_to_forward'] %> @<%= server %>:<%= node['rsyslog']['port'] %>
 <% end -%>
