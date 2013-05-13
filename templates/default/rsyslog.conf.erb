@@ -99,6 +99,9 @@ $Umask <%= node['rsyslog']['umask'] %>
 <% if node['rsyslog']['priv_seperation'] %>
 $PrivDropToUser <%= node['rsyslog']['user'] %>
 $PrivDropToGroup <%= node['rsyslog']['group'] %>
+# Prevent race condition:
+# https://bugs.launchpad.net/ubuntu/+source/rsyslog/+bug/789174
+$Sleep 1
 <% end %>
 <% unless node['rsyslog']['rate_limit_interval'].nil? %>
 #
