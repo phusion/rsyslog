@@ -24,7 +24,6 @@ $template PerHostNewsCrit,"<%= node['rsyslog']['log_dir'] %>/<%= node['rsyslog']
 $template PerHostNewsErr,"<%= node['rsyslog']['log_dir'] %>/<%= node['rsyslog']['per_host_dir'] %>/news.err"
 $template PerHostNewsNotice,"<%= node['rsyslog']['log_dir'] %>/<%= node['rsyslog']['per_host_dir'] %>/news.notice"
 $template PerHostDebug,"<%= node['rsyslog']['log_dir'] %>/<%= node['rsyslog']['per_host_dir'] %>/debug"
-$template PerHostMessages,"<%= node['rsyslog']['log_dir'] %>/<%= node['rsyslog']['per_host_dir'] %>/messages"
 
 auth,authpriv.*         ?PerHostAuth
 *.*;auth,authpriv.none  -?PerHostSyslog
@@ -46,11 +45,6 @@ news.notice             -?PerHostNewsNotice
 *.=debug;\
   auth,authpriv.none;\
   news.none;mail.none   -?PerHostDebug
-
-*.=info;*.=notice;*.=warn;\
-  auth,authpriv.none;\
-  cron,daemon.none;\
-  mail,news.none        -?PerHostMessages
 
 #
 # Stop processing of all non-local messages. You can process remote messages
