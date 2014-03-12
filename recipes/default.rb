@@ -39,7 +39,7 @@ directory '/var/spool/rsyslog' do
     owner 'root'
     group 'root'
   end
-  mode  '0755'
+  mode  '0750'
 end
 
 # Our main stub which then does its own rsyslog-specific
