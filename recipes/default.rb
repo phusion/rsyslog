@@ -32,8 +32,13 @@ directory "#{node['rsyslog']['config_prefix']}/rsyslog.d" do
 end
 
 directory '/var/spool/rsyslog' do
-  owner 'root'
-  group 'root'
+  if node['rsyslog']['priv_seperation']
+    owner node['rsyslog']['user']
+    group node['rsyslog']['group']
+  else
+    owner 'root'
+    group 'root'
+  end
   mode  '0755'
 end
 
